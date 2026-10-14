@@ -1,7 +1,7 @@
 # Quickstart
 
 This walkthrough is a hands-on tutorial for the GIF search Flutter example in
-[`examples/flutter/gif_search`](https://github.com/nrbnlulu/shalom/tree/main/examples/flutter/gif_search). The same approach works for any Flutter app
+<a href="https://github.com/nrbnlulu/shalom/tree/main/examples/flutter/gif_search" target="_blank" rel="noopener noreferrer"><code>examples/flutter/gif_search</code></a>. The same approach works for any Flutter app
 using Shalom's declarative annotation API.
 
 ## 1. Add your schema

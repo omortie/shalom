@@ -29,4 +29,4 @@ them to a normalized cache that keeps every widget observing it in sync.
 - Custom scalar support via a small Dart glue layer.
 - A Flutter debug panel for inspecting the live normalized cache.
 
-To get started, check out the [Installation](installation.md) guide and the [Quickstart](quickstart.md) walkthrough. You can also explore [`examples/flutter/gif_search`](https://github.com/nrbnlulu/shalom/tree/main/examples/flutter/gif_search) in the repository for a complete working app.
+To get started, check out the [Installation](installation.md) guide and the [Quickstart](quickstart.md) walkthrough. You can also explore <a href="https://github.com/nrbnlulu/shalom/tree/main/examples/flutter/gif_search" target="_blank" rel="noopener noreferrer"><code>examples/flutter/gif_search</code></a> in the repository for a complete working app.
