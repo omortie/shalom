@@ -1,5 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
+
+import 'package:yaml/yaml.dart';
 
 /// Resolves the file path to the compiled `shalom_ffi` native library
 /// for standalone Dart CLI scripts and unit tests.
@@ -16,15 +17,19 @@ String? resolveNativeLibPath() {
   if (nativeAssetsFile.existsSync()) {
     try {
       final content = nativeAssetsFile.readAsStringSync();
-      final doc = jsonDecode(content) as Map<String, dynamic>;
-      final nativeAssets = doc['native-assets'] as Map<String, dynamic>?;
-      if (nativeAssets != null) {
-        for (final osEntry in nativeAssets.values) {
-          if (osEntry is Map<String, dynamic>) {
-            final asset = osEntry['package:shalom/shalom_ffi'];
-            if (asset is List && asset.length > 1) {
-              final libPath = asset[1] as String;
-              if (File(libPath).existsSync()) return libPath;
+      final doc = loadYaml(content);
+      if (doc is Map) {
+        final nativeAssets = doc['native-assets'];
+        if (nativeAssets is Map) {
+          for (final osEntry in nativeAssets.values) {
+            if (osEntry is Map) {
+              final asset = osEntry['package:shalom/shalom_ffi'];
+              if (asset is List && asset.length > 1) {
+                final libPath = asset[1]?.toString();
+                if (libPath != null && File(libPath).existsSync()) {
+                  return libPath;
+                }
+              }
             }
           }
         }
