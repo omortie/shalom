@@ -107,4 +107,4 @@ jobs:
             - name: Build GIF search example
               run: |
                   cd examples/flutter/gif_search
-                  flutter build web
+                  flutter build linux
