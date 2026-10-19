@@ -97,7 +97,6 @@ jobs:
               uses: flutter-actions/setup-flutter@v4
               with:
                   channel: stable
-                  version: 3.38.1
 
             - name: Install GIF search dependencies
               run: |
@@ -107,4 +106,4 @@ jobs:
             - name: Build GIF search example
               run: |
                   cd examples/flutter/gif_search
-                  flutter build linux
+                  flutter test
