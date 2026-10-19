@@ -99,15 +99,6 @@ jobs:
                   channel: stable
                   version: 3.38.1
 
-            - name: Build shalom CLI
-              run: |
-                  cd rust
-                  cargo build -p shalom_dart_codegen
-
-            - name: Run codegen for GIF search example
-              run: |
-                  ./rust/target/debug/shalom generate --path examples/flutter/gif_search
-
             - name: Install GIF search dependencies
               run: |
                   cd examples/flutter/gif_search
