@@ -5,7 +5,7 @@ repo_name: nrbnlulu/shalom
 
 theme:
     name: material
-    logo: assets/shalom_logo_with_text.jpeg
+    logo: assets/shalom_logo.png
     favicon: assets/favicon.ico
     language: en
     font:
