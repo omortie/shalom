@@ -22,19 +22,25 @@ void main() {
   };
 
   group('3-level nested fragments', () {
-    test('nestedFragmentsRequired - All fields accessible through nested fragments', () {
-      final variables = SiteQueryVariables(siteId: "site1");
-      final result = SiteQueryData.fromJson(siteData);
+    test(
+      'nestedFragmentsRequired - All fields accessible through nested fragments',
+      () {
+        final variables = SiteQueryVariables(siteId: "site1");
+        final result = SiteQueryData.fromJson(siteData);
 
-      // All fields should be accessible through the 3-level nested fragment chain
-      expect(result.site?.id, "site1");
-      expect(result.site?.name, "Main Office"); // from SiteWithNameFrag
-      expect(result.site?.location, "New York"); // from SiteWithLocAndNameFrag
-      expect(
-        result.site?.address,
-        "123 Main St",
-      ); // from SiteWithAddressAndLocFrag
-    });
+        // All fields should be accessible through the 3-level nested fragment chain
+        expect(result.site?.id, "site1");
+        expect(result.site?.name, "Main Office"); // from SiteWithNameFrag
+        expect(
+          result.site?.location,
+          "New York",
+        ); // from SiteWithLocAndNameFrag
+        expect(
+          result.site?.address,
+          "123 Main St",
+        ); // from SiteWithAddressAndLocFrag
+      },
+    );
 
     test('nestedFragmentsOptional - Null handling works correctly', () {
       final nullData = {"site": null};

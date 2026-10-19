@@ -115,8 +115,9 @@ void main() {
         ),
       );
       expect(variablesUpdated.pointData.coords, Some<Point?>(updatedPoint));
-      final req = RequestUpdatePointWithInputCoordsMaybe(variables: variables)
-          .toRequest();
+      final req = RequestUpdatePointWithInputCoordsMaybe(
+        variables: variables,
+      ).toRequest();
       expect(req.variables, {
         "pointData": {"coords": null, "name": "Location D"},
       });
@@ -127,8 +128,9 @@ void main() {
         pointData: PointDataOptCoordsInput(name: "Location M"),
       );
 
-      final req = RequestUpdatePointWithOptCoords(variables: variables)
-          .toRequest();
+      final req = RequestUpdatePointWithOptCoords(
+        variables: variables,
+      ).toRequest();
       expect(req.variables, {
         "pointData": {"coords": "POINT (0, 0)", "name": "Location M"},
       });

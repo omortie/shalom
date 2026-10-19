@@ -110,63 +110,66 @@ void main() {
       },
     };
 
-    test('objectFragmentListInterfacesRequired - Object with fragment containing list of interfaces deserializes', () {
-      final variables = GetLibraryWithCollectionVariables(libraryId: "lib1");
-      final result = GetLibraryWithCollectionData.fromJson(libraryData);
+    test(
+      'objectFragmentListInterfacesRequired - Object with fragment containing list of interfaces deserializes',
+      () {
+        final variables = GetLibraryWithCollectionVariables(libraryId: "lib1");
+        final result = GetLibraryWithCollectionData.fromJson(libraryData);
 
-      // Test access to top-level object fields
-      expect(result.library?.id, "lib1");
-      expect(result.library?.name, "Central Library");
+        // Test access to top-level object fields
+        expect(result.library?.id, "lib1");
+        expect(result.library?.name, "Central Library");
 
-      // Test access to nested object fields
-      expect(result.library?.collection.id, "col1");
-      expect(result.library?.collection.title, "Best of 2024");
-      expect(result.library?.collection.description, "Top media from 2024");
+        // Test access to nested object fields
+        expect(result.library?.collection.id, "col1");
+        expect(result.library?.collection.title, "Best of 2024");
+        expect(result.library?.collection.description, "Top media from 2024");
 
-      // Test access to fragment fields - list of interfaces
-      expect(result.library?.collection.items, isNotNull);
-      expect(result.library?.collection.items.length, 3);
+        // Test access to fragment fields - list of interfaces
+        expect(result.library?.collection.items, isNotNull);
+        expect(result.library?.collection.items.length, 3);
 
-      // Test first item (Book)
-      final book = result.library?.collection.items[0];
-      expect(book, isA<CollectionDetailsFrag_items__Book>());
-      if (book is CollectionDetailsFrag_items__Book) {
-        expect(book.$__typename, "Book");
-        expect(book.id, "book1");
-        expect(book.title, "The Great Novel");
-        expect(book.year, 2024);
-        expect(book.author, "Jane Doe");
-        expect(book.pages, 450);
-      }
+        // Test first item (Book)
+        final book = result.library?.collection.items[0];
+        expect(book, isA<CollectionDetailsFrag_items__Book>());
+        if (book is CollectionDetailsFrag_items__Book) {
+          expect(book.$__typename, "Book");
+          expect(book.id, "book1");
+          expect(book.title, "The Great Novel");
+          expect(book.year, 2024);
+          expect(book.author, "Jane Doe");
+          expect(book.pages, 450);
+        }
 
-      // Test second item (Movie)
-      final movie = result.library?.collection.items[1];
-      expect(movie, isA<CollectionDetailsFrag_items__Movie>());
-      if (movie is CollectionDetailsFrag_items__Movie) {
-        expect(movie.$__typename, "Movie");
-        expect(movie.id, "movie1");
-        expect(movie.title, "Epic Adventure");
-        expect(movie.year, 2024);
-        expect(movie.director, "John Smith");
-        expect(movie.duration, 150);
-      }
+        // Test second item (Movie)
+        final movie = result.library?.collection.items[1];
+        expect(movie, isA<CollectionDetailsFrag_items__Movie>());
+        if (movie is CollectionDetailsFrag_items__Movie) {
+          expect(movie.$__typename, "Movie");
+          expect(movie.id, "movie1");
+          expect(movie.title, "Epic Adventure");
+          expect(movie.year, 2024);
+          expect(movie.director, "John Smith");
+          expect(movie.duration, 150);
+        }
 
-      // Test third item (Music)
-      final music = result.library?.collection.items[2];
-      expect(music, isA<CollectionDetailsFrag_items__Music>());
-      if (music is CollectionDetailsFrag_items__Music) {
-        expect(music.$__typename, "Music");
-        expect(music.id, "music1");
-        expect(music.title, "Summer Hits");
-        expect(music.year, 2024);
-        expect(music.artist, "The Band");
-        expect(music.genre, "Pop");
-      }
+        // Test third item (Music)
+        final music = result.library?.collection.items[2];
+        expect(music, isA<CollectionDetailsFrag_items__Music>());
+        if (music is CollectionDetailsFrag_items__Music) {
+          expect(music.$__typename, "Music");
+          expect(music.id, "music1");
+          expect(music.title, "Summer Hits");
+          expect(music.year, 2024);
+          expect(music.artist, "The Band");
+          expect(music.genre, "Pop");
+        }
 
-      // Test fragment scalar fields
-      expect(result.library?.collection.curator, "Alice Johnson");
-      expect(result.library?.collection.createdAt, "2024-01-15");
-    });
+        // Test fragment scalar fields
+        expect(result.library?.collection.curator, "Alice Johnson");
+        expect(result.library?.collection.createdAt, "2024-01-15");
+      },
+    );
 
     test(
       'objectFragmentListInterfacesOptional - Optional fields are accessible',
@@ -192,112 +195,121 @@ void main() {
       },
     );
 
-    test('objectFragmentListInterfacesEquals - Equality works with fragment and list of interfaces', () {
-      final variables = GetLibraryWithCollectionVariables(libraryId: "lib1");
-      final result1 = GetLibraryWithCollectionData.fromJson(libraryData);
-      final result2 = GetLibraryWithCollectionData.fromJson(libraryData);
+    test(
+      'objectFragmentListInterfacesEquals - Equality works with fragment and list of interfaces',
+      () {
+        final variables = GetLibraryWithCollectionVariables(libraryId: "lib1");
+        final result1 = GetLibraryWithCollectionData.fromJson(libraryData);
+        final result2 = GetLibraryWithCollectionData.fromJson(libraryData);
 
-      expect(result1, equals(result2));
+        expect(result1, equals(result2));
 
-      // Verify nested objects with fragments are also equal
-      expect(result1.library?.collection, equals(result2.library?.collection));
+        // Verify nested objects with fragments are also equal
+        expect(
+          result1.library?.collection,
+          equals(result2.library?.collection),
+        );
 
-      // Verify list items are equal
-      expect(
-        result1.library?.collection.items,
-        equals(result2.library?.collection.items),
-      );
-    });
+        // Verify list items are equal
+        expect(
+          result1.library?.collection.items,
+          equals(result2.library?.collection.items),
+        );
+      },
+    );
 
-    test('objectFragmentListInterfacesToJson - Serialization includes fragment fields and list of interfaces', () {
-      final variables = GetLibraryWithCollectionVariables(libraryId: "lib1");
-      final result = GetLibraryWithCollectionData.fromJson(libraryData);
-      final json = result.toJson();
+    test(
+      'objectFragmentListInterfacesToJson - Serialization includes fragment fields and list of interfaces',
+      () {
+        final variables = GetLibraryWithCollectionVariables(libraryId: "lib1");
+        final result = GetLibraryWithCollectionData.fromJson(libraryData);
+        final json = result.toJson();
 
-      expect(json, libraryData);
+        expect(json, libraryData);
 
-      // Verify fragment fields are properly serialized
-      expect(json["library"]?["collection"]?["curator"], "Alice Johnson");
-      expect(json["library"]?["collection"]?["createdAt"], "2024-01-15");
+        // Verify fragment fields are properly serialized
+        expect(json["library"]?["collection"]?["curator"], "Alice Johnson");
+        expect(json["library"]?["collection"]?["createdAt"], "2024-01-15");
 
-      // Verify list of interfaces is properly serialized
-      final items = json["library"]?["collection"]?["items"] as List?;
-      expect(items?.length, 3);
-      expect(items?[0]?["__typename"], "Book");
-      expect(items?[0]?["author"], "Jane Doe");
-      expect(items?[1]?["__typename"], "Movie");
-      expect(items?[1]?["director"], "John Smith");
-      expect(items?[2]?["__typename"], "Music");
-      expect(items?[2]?["artist"], "The Band");
-    });
+        // Verify list of interfaces is properly serialized
+        final items = json["library"]?["collection"]?["items"] as List?;
+        expect(items?.length, 3);
+        expect(items?[0]?["__typename"], "Book");
+        expect(items?[0]?["author"], "Jane Doe");
+        expect(items?[1]?["__typename"], "Movie");
+        expect(items?[1]?["director"], "John Smith");
+        expect(items?[2]?["__typename"], "Music");
+        expect(items?[2]?["artist"], "The Band");
+      },
+    );
   });
 
-  group(
-    'Object Fragment List Interfaces - GetLibraryWithCollectionPartial',
-    () {
-      final partialData = {
-        "library": {
-          "id": "lib3",
-          "name": "Academic Library",
-          "collection": {
-            "id": "col3",
-            "title": "Research Papers",
-            "items": [
-              {
-                "__typename": "Book",
-                "id": "book3",
-                "title": "Advanced Physics",
-                "year": 2023,
-                "author": "Dr. Smith",
-                "pages": 600,
-              },
-              {
-                "__typename": "Book",
-                "id": "book4",
-                "title": "Modern Chemistry",
-                "year": 2023,
-                "author": "Dr. Jones",
-                "pages": 550,
-              },
-            ],
-            "curator": "Prof. Anderson",
-            "createdAt": "2023-09-01",
-          },
+  group('Object Fragment List Interfaces - GetLibraryWithCollectionPartial', () {
+    final partialData = {
+      "library": {
+        "id": "lib3",
+        "name": "Academic Library",
+        "collection": {
+          "id": "col3",
+          "title": "Research Papers",
+          "items": [
+            {
+              "__typename": "Book",
+              "id": "book3",
+              "title": "Advanced Physics",
+              "year": 2023,
+              "author": "Dr. Smith",
+              "pages": 600,
+            },
+            {
+              "__typename": "Book",
+              "id": "book4",
+              "title": "Modern Chemistry",
+              "year": 2023,
+              "author": "Dr. Jones",
+              "pages": 550,
+            },
+          ],
+          "curator": "Prof. Anderson",
+          "createdAt": "2023-09-01",
         },
-      };
+      },
+    };
 
-      final partialDataUpdated = {
-        "library": {
-          "id": "lib3",
-          "name": "Academic Library",
-          "collection": {
-            "id": "col3",
-            "title": "Research Papers - Updated",
-            "items": [
-              {
-                "__typename": "Book",
-                "id": "book3",
-                "title": "Advanced Physics",
-                "year": 2023,
-                "author": "Dr. Smith",
-                "pages": 600,
-              },
-              {
-                "__typename": "Book",
-                "id": "book4",
-                "title": "Modern Chemistry",
-                "year": 2023,
-                "author": "Dr. Jones",
-                "pages": 550,
-              },
-            ],
-            "curator": "Prof. Anderson",
-            "createdAt": "2023-09-01",
-          },
+    final partialDataUpdated = {
+      "library": {
+        "id": "lib3",
+        "name": "Academic Library",
+        "collection": {
+          "id": "col3",
+          "title": "Research Papers - Updated",
+          "items": [
+            {
+              "__typename": "Book",
+              "id": "book3",
+              "title": "Advanced Physics",
+              "year": 2023,
+              "author": "Dr. Smith",
+              "pages": 600,
+            },
+            {
+              "__typename": "Book",
+              "id": "book4",
+              "title": "Modern Chemistry",
+              "year": 2023,
+              "author": "Dr. Jones",
+              "pages": 550,
+            },
+          ],
+          "curator": "Prof. Anderson",
+          "createdAt": "2023-09-01",
         },
-      };
+      },
+    };
 
-      test('objectFragmentListInterfacesRequired - Partial query without description field', () {
+    test(
+      'objectFragmentListInterfacesRequired - Partial query without description field',
+      () {
         final variables = GetLibraryWithCollectionPartialVariables(
           libraryId: "lib3",
         );
@@ -327,9 +339,12 @@ void main() {
         }
 
         expect(result.library?.collection.curator, "Prof. Anderson");
-      });
+      },
+    );
 
-      test('objectFragmentListInterfacesOptional - List of interfaces with single type', () {
+    test(
+      'objectFragmentListInterfacesOptional - List of interfaces with single type',
+      () {
         final variables = GetLibraryWithCollectionPartialVariables(
           libraryId: "lib3",
         );
@@ -342,48 +357,48 @@ void main() {
           (item) => item is CollectionDetailsFrag_items__Book,
         );
         expect(allBooks, true);
-      });
+      },
+    );
 
-      test(
-        'objectFragmentListInterfacesEquals - Equality with partial query',
-        () {
-          final variables = GetLibraryWithCollectionPartialVariables(
-            libraryId: "lib3",
-          );
-          final result1 = GetLibraryWithCollectionPartialData.fromJson(
-            partialData,
-          );
-          final result2 = GetLibraryWithCollectionPartialData.fromJson(
-            partialData,
-          );
+    test(
+      'objectFragmentListInterfacesEquals - Equality with partial query',
+      () {
+        final variables = GetLibraryWithCollectionPartialVariables(
+          libraryId: "lib3",
+        );
+        final result1 = GetLibraryWithCollectionPartialData.fromJson(
+          partialData,
+        );
+        final result2 = GetLibraryWithCollectionPartialData.fromJson(
+          partialData,
+        );
 
-          expect(result1, equals(result2));
-          expect(
-            result1.library?.collection.items,
-            equals(result2.library?.collection.items),
-          );
-        },
-      );
+        expect(result1, equals(result2));
+        expect(
+          result1.library?.collection.items,
+          equals(result2.library?.collection.items),
+        );
+      },
+    );
 
-      test(
-        'objectFragmentListInterfacesToJson - Serialization with partial query',
-        () {
-          final variables = GetLibraryWithCollectionPartialVariables(
-            libraryId: "lib3",
-          );
-          final result = GetLibraryWithCollectionPartialData.fromJson(
-            partialData,
-          );
-          final json = result.toJson();
+    test(
+      'objectFragmentListInterfacesToJson - Serialization with partial query',
+      () {
+        final variables = GetLibraryWithCollectionPartialVariables(
+          libraryId: "lib3",
+        );
+        final result = GetLibraryWithCollectionPartialData.fromJson(
+          partialData,
+        );
+        final json = result.toJson();
 
-          expect(json, partialData);
+        expect(json, partialData);
 
-          final items = json["library"]?["collection"]?["items"] as List?;
-          expect(items?.length, 2);
-          expect(items?[0]?["author"], "Dr. Smith");
-          expect(items?[1]?["author"], "Dr. Jones");
-        },
-      );
-    },
-  );
+        final items = json["library"]?["collection"]?["items"] as List?;
+        expect(items?.length, 2);
+        expect(items?[0]?["author"], "Dr. Smith");
+        expect(items?[1]?["author"], "Dr. Jones");
+      },
+    );
+  });
 }

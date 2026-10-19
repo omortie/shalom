@@ -107,8 +107,9 @@ void main() {
   });
   group("optional input objects", () {
     test("None", () {
-      final req = RequestOptOrderRequest(variables: OptOrderRequestVariables())
-          .toRequest();
+      final req = RequestOptOrderRequest(
+        variables: OptOrderRequestVariables(),
+      ).toRequest();
       expect(req.variables, {});
     });
     test("Some", () {

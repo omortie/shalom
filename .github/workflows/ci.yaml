@@ -22,7 +22,6 @@ jobs:
               uses: actions-rust-lang/setup-rust-toolchain@v1
               with:
                   toolchain: stable
-                  override: true
 
             - name: Run cache performance regression tests
               run: cargo test -p shalom_runtime --release --test perf -- --ignored --nocapture --test-threads=1

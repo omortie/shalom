@@ -10,19 +10,24 @@ import '__graphql__/UpdateUserMixed.shalom.dart';
 void main() {
   group('Input Objects with Inline Variables', () {
     group('RefreshToken - Single Variable with Inline Literal', () {
-      test('RefreshTokenRequired - should handle required variable in inline object', () {
-        final variables = RefreshTokenVariables(refreshToken: 'test-token-123');
-        final request = RequestRefreshToken(variables: variables);
+      test(
+        'RefreshTokenRequired - should handle required variable in inline object',
+        () {
+          final variables = RefreshTokenVariables(
+            refreshToken: 'test-token-123',
+          );
+          final request = RequestRefreshToken(variables: variables);
 
-        // Verify the request is created correctly
-        expect(request.variables.refreshToken, 'test-token-123');
+          // Verify the request is created correctly
+          expect(request.variables.refreshToken, 'test-token-123');
 
-        // Verify toRequest works
-        final gqlRequest = request.toRequest();
-        expect(gqlRequest.variables['refreshToken'], 'test-token-123');
-        expect(gqlRequest.opType, OperationType.Mutation);
-        expect(gqlRequest.opName, 'RefreshToken');
-      });
+          // Verify toRequest works
+          final gqlRequest = request.toRequest();
+          expect(gqlRequest.variables['refreshToken'], 'test-token-123');
+          expect(gqlRequest.opType, OperationType.Mutation);
+          expect(gqlRequest.opName, 'RefreshToken');
+        },
+      );
 
       test('RefreshTokenOptional - should handle null refresh token', () {
         final variables = RefreshTokenVariables(refreshToken: 'token-456');
@@ -73,34 +78,40 @@ void main() {
     });
 
     group('RefreshTokenWithVariable - Multiple Variables in Inline Object', () {
-      test('RefreshTokenWithVariableRequired - should handle multiple required variables', () {
-        final variables = RefreshTokenWithVariableVariables(
-          refreshToken: 'multi-token',
-          revoke: true,
-        );
+      test(
+        'RefreshTokenWithVariableRequired - should handle multiple required variables',
+        () {
+          final variables = RefreshTokenWithVariableVariables(
+            refreshToken: 'multi-token',
+            revoke: true,
+          );
 
-        final request = RequestRefreshTokenWithVariable(variables: variables);
-        expect(request.variables.refreshToken, 'multi-token');
-        expect(request.variables.revoke, true);
+          final request = RequestRefreshTokenWithVariable(variables: variables);
+          expect(request.variables.refreshToken, 'multi-token');
+          expect(request.variables.revoke, true);
 
-        final gqlRequest = request.toRequest();
-        expect(gqlRequest.variables['refreshToken'], 'multi-token');
-        expect(gqlRequest.variables['revoke'], true);
-      });
+          final gqlRequest = request.toRequest();
+          expect(gqlRequest.variables['refreshToken'], 'multi-token');
+          expect(gqlRequest.variables['revoke'], true);
+        },
+      );
 
-      test('RefreshTokenWithVariableOptional - should handle different boolean values', () {
-        final variables1 = RefreshTokenWithVariableVariables(
-          refreshToken: 'token-1',
-          revoke: false,
-        );
-        expect(variables1.revoke, false);
+      test(
+        'RefreshTokenWithVariableOptional - should handle different boolean values',
+        () {
+          final variables1 = RefreshTokenWithVariableVariables(
+            refreshToken: 'token-1',
+            revoke: false,
+          );
+          expect(variables1.revoke, false);
 
-        final variables2 = RefreshTokenWithVariableVariables(
-          refreshToken: 'token-2',
-          revoke: true,
-        );
-        expect(variables2.revoke, true);
-      });
+          final variables2 = RefreshTokenWithVariableVariables(
+            refreshToken: 'token-2',
+            revoke: true,
+          );
+          expect(variables2.revoke, true);
+        },
+      );
 
       test('RefreshTokenWithVariableEquals - should compare correctly', () {
         final response1 = RefreshTokenWithVariableData(
@@ -137,23 +148,26 @@ void main() {
     });
 
     group('UpdateUser - Multiple Variables and Inline Scalars', () {
-      test('UpdateUserRequired - should handle required variables with inline literals', () {
-        final variables = UpdateUserVariables(
-          userId: 'user-123',
-          userName: 'John Doe',
-          userEmail: 'john@example.com',
-        );
+      test(
+        'UpdateUserRequired - should handle required variables with inline literals',
+        () {
+          final variables = UpdateUserVariables(
+            userId: 'user-123',
+            userName: 'John Doe',
+            userEmail: 'john@example.com',
+          );
 
-        final request = RequestUpdateUser(variables: variables);
-        expect(request.variables.userId, 'user-123');
-        expect(request.variables.userName, 'John Doe');
-        expect(request.variables.userEmail, 'john@example.com');
+          final request = RequestUpdateUser(variables: variables);
+          expect(request.variables.userId, 'user-123');
+          expect(request.variables.userName, 'John Doe');
+          expect(request.variables.userEmail, 'john@example.com');
 
-        final gqlRequest = request.toRequest();
-        expect(gqlRequest.variables['userId'], 'user-123');
-        expect(gqlRequest.variables['userName'], 'John Doe');
-        expect(gqlRequest.variables['userEmail'], 'john@example.com');
-      });
+          final gqlRequest = request.toRequest();
+          expect(gqlRequest.variables['userId'], 'user-123');
+          expect(gqlRequest.variables['userName'], 'John Doe');
+          expect(gqlRequest.variables['userEmail'], 'john@example.com');
+        },
+      );
 
       test('UpdateUserEquals - should compare responses correctly', () {
         final user1 = UpdateUser_updateUser(
@@ -205,64 +219,73 @@ void main() {
     group(
       'UpdateUserWithOptionalVariables - Optional Variables in Inline Objects',
       () {
-        test('UpdateUserWithOptionalVariablesRequired - should handle required and optional variables', () {
-          final variables = UpdateUserWithOptionalVariablesVariables(
-            userId: 'opt-user',
-            userName: 'Optional User',
-            userEmail: 'opt@test.com',
-            userAge: const Some<int?>(30),
-            isActive: const Some<bool?>(false),
-          );
+        test(
+          'UpdateUserWithOptionalVariablesRequired - should handle required and optional variables',
+          () {
+            final variables = UpdateUserWithOptionalVariablesVariables(
+              userId: 'opt-user',
+              userName: 'Optional User',
+              userEmail: 'opt@test.com',
+              userAge: const Some<int?>(30),
+              isActive: const Some<bool?>(false),
+            );
 
-          expect(variables.userId, 'opt-user');
-          expect(variables.userName, 'Optional User');
-          expect(variables.userEmail, 'opt@test.com');
-          expect(variables.userAge, const Some<int?>(30));
-          expect(variables.isActive, const Some<bool?>(false));
-        });
+            expect(variables.userId, 'opt-user');
+            expect(variables.userName, 'Optional User');
+            expect(variables.userEmail, 'opt@test.com');
+            expect(variables.userAge, const Some<int?>(30));
+            expect(variables.isActive, const Some<bool?>(false));
+          },
+        );
 
-        test('UpdateUserWithOptionalVariablesOptional - should handle null optional variables', () {
-          final variables = UpdateUserWithOptionalVariablesVariables(
-            userId: 'opt-user-2',
-            userName: 'User 2',
-            userEmail: 'user2@test.com',
-            userAge: const None(),
-            isActive: const None(),
-          );
+        test(
+          'UpdateUserWithOptionalVariablesOptional - should handle null optional variables',
+          () {
+            final variables = UpdateUserWithOptionalVariablesVariables(
+              userId: 'opt-user-2',
+              userName: 'User 2',
+              userEmail: 'user2@test.com',
+              userAge: const None(),
+              isActive: const None(),
+            );
 
-          expect(variables.userId, 'opt-user-2');
-          expect(variables.userAge, const None());
-          expect(variables.isActive, const None());
+            expect(variables.userId, 'opt-user-2');
+            expect(variables.userAge, const None());
+            expect(variables.isActive, const None());
 
-          final gqlRequest = RequestUpdateUserWithOptionalVariables(
-            variables: variables,
-          ).toRequest();
-          expect(gqlRequest.variables, {
-            'userEmail': 'user2@test.com',
-            "userId": "opt-user-2",
-            "userName": "User 2",
-          });
-        });
+            final gqlRequest = RequestUpdateUserWithOptionalVariables(
+              variables: variables,
+            ).toRequest();
+            expect(gqlRequest.variables, {
+              'userEmail': 'user2@test.com',
+              "userId": "opt-user-2",
+              "userName": "User 2",
+            });
+          },
+        );
 
-        test('UpdateUserWithOptionalVariablesEquals - should handle nulls in comparison', () {
-          final user1 = UpdateUserWithOptionalVariables_updateUser(
-            id: '1',
-            name: 'User',
-            email: 'user@test.com',
-            age: null,
-            active: null,
-          );
+        test(
+          'UpdateUserWithOptionalVariablesEquals - should handle nulls in comparison',
+          () {
+            final user1 = UpdateUserWithOptionalVariables_updateUser(
+              id: '1',
+              name: 'User',
+              email: 'user@test.com',
+              age: null,
+              active: null,
+            );
 
-          final user2 = UpdateUserWithOptionalVariables_updateUser(
-            id: '1',
-            name: 'User',
-            email: 'user@test.com',
-            age: null,
-            active: null,
-          );
+            final user2 = UpdateUserWithOptionalVariables_updateUser(
+              id: '1',
+              name: 'User',
+              email: 'user@test.com',
+              age: null,
+              active: null,
+            );
 
-          expect(user1, equals(user2));
-        });
+            expect(user1, equals(user2));
+          },
+        );
 
         test(
           'UpdateUserWithOptionalVariablesToJson - should include null values',
