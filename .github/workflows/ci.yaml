@@ -76,7 +76,7 @@ jobs:
               if: runner.os == 'Linux'
               run: task lint
 
-    anilist-example:
+    gif-search-example:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
@@ -99,16 +99,16 @@ jobs:
                   cd rust
                   cargo build -p shalom_dart_codegen
 
-            - name: Run codegen for AniList example
+            - name: Run codegen for GIF search example
               run: |
-                  ./rust/target/debug/shalom generate --path examples/anilist
+                  ./rust/target/debug/shalom generate --path examples/flutter/gif_search
 
-            - name: Install AniList dependencies
+            - name: Install GIF search dependencies
               run: |
-                  cd examples/anilist
+                  cd examples/flutter/gif_search
                   flutter pub get
 
-            - name: Build AniList example
+            - name: Build GIF search example
               run: |
-                  cd examples/anilist
+                  cd examples/flutter/gif_search
                   flutter build web
