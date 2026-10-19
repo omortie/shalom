@@ -7,7 +7,7 @@ vars:
     TEST_THREADS: '{{default "2" .SHALOM_TEST_THREADS}}'
     DART_BIN:
         sh: |
-            if command -v fvm &> /dev/null; then
+            if command -v fvm > /dev/null 2>&1; then
               echo "fvm dart"
             else
               echo "dart"
