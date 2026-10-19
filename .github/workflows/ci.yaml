@@ -56,10 +56,15 @@ jobs:
                   version: 3.x
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Install flutter packages
+            - name: Install dart test packages
               run: |
                   cd rust/shalom_dart_codegen/dart_tests/
-                  flutter packages get
+                  dart pub get
+
+            - name: Install flutter test packages
+              run: |
+                  cd rust/shalom_dart_codegen/flutter_tests/
+                  flutter pub get
 
             - name: Test
               env:
