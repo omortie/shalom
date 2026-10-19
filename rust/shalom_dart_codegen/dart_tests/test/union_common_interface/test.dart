@@ -1,4 +1,5 @@
 import 'package:test/test.dart';
+
 import "__graphql__/GetErrorResult.shalom.dart";
 import "__graphql__/GetMixedResult.shalom.dart";
 
@@ -40,21 +41,18 @@ void main() {
   });
 
   group('union with a partially-shared interface', () {
-    test(
-      'members implementing the interface still expose their field via downcast',
-      () {
-        final result = GetMixedResultData.fromJson({
-          "mixedResult": {
-            "__typename": "DoesNotExistErr",
-            "message": "not found",
-          },
-        });
+    test('members implementing the interface still expose their field via downcast', () {
+      final result = GetMixedResultData.fromJson({
+        "mixedResult": {
+          "__typename": "DoesNotExistErr",
+          "message": "not found",
+        },
+      });
 
-        final err =
-            result.mixedResult as GetMixedResult_mixedResult__DoesNotExistErr;
-        expect(err.message, "not found");
-      },
-    );
+      final err =
+          result.mixedResult as GetMixedResult_mixedResult__DoesNotExistErr;
+      expect(err.message, "not found");
+    });
 
     test('the member outside the shared interface keeps its own field', () {
       final result = GetMixedResultData.fromJson({

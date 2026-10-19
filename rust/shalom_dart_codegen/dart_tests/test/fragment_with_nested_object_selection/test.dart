@@ -1,4 +1,5 @@
 import 'package:test/test.dart';
+
 import '__graphql__/GetPostWithDetails.shalom.dart';
 import '__graphql__/GetUserWithProfile.shalom.dart';
 
@@ -32,24 +33,21 @@ void main() {
       },
     };
 
-    test(
-      'fragmentWithNestedObjectRequired - Fragment with nested object deserializes',
-      () {
-        final variables = GetPostWithDetailsVariables(postId: "post1");
-        final result = GetPostWithDetailsData.fromJson(postWithDetailsData);
+    test('fragmentWithNestedObjectRequired - Fragment with nested object deserializes', () {
+      final variables = GetPostWithDetailsVariables(postId: "post1");
+      final result = GetPostWithDetailsData.fromJson(postWithDetailsData);
 
-        // Test access to top-level fields
-        expect(result.post?.id, "post1");
-        expect(result.post?.title, "GraphQL Best Practices");
-        expect(result.post?.content, "Content about GraphQL...");
+      // Test access to top-level fields
+      expect(result.post?.id, "post1");
+      expect(result.post?.title, "GraphQL Best Practices");
+      expect(result.post?.content, "Content about GraphQL...");
 
-        // Test access to nested object fields defined in fragment
-        expect(result.post?.author.id, "author1");
-        expect(result.post?.author.name, "Alice Johnson");
-        expect(result.post?.author.email, "alice@example.com");
-        expect(result.post?.author.bio, "GraphQL enthusiast");
-      },
-    );
+      // Test access to nested object fields defined in fragment
+      expect(result.post?.author.id, "author1");
+      expect(result.post?.author.name, "Alice Johnson");
+      expect(result.post?.author.email, "alice@example.com");
+      expect(result.post?.author.bio, "GraphQL enthusiast");
+    });
 
     test(
       'fragmentWithNestedObjectOptional - Nested object fields are accessible',

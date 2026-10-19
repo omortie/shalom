@@ -36,8 +36,8 @@ String? resolveNativeLibPath() {
   final libName = Platform.isWindows
       ? 'shalom_ffi.dll'
       : Platform.isMacOS
-          ? 'libshalom_ffi.dylib'
-          : 'libshalom_ffi.so';
+      ? 'libshalom_ffi.dylib'
+      : 'libshalom_ffi.so';
 
   final searchDirs = [
     'target/debug',

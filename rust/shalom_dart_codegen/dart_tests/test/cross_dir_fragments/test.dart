@@ -1,5 +1,7 @@
 import 'dart:io';
+
 import 'package:test/test.dart';
+
 import 'queries/__graphql__/GetUser.shalom.dart';
 import 'queries/__graphql__/GetPost.shalom.dart';
 import 'nested_queries/__graphql__/GetAuthor.shalom.dart';
@@ -23,8 +25,7 @@ void main() {
           "import '../../common_fragments/__graphql__/UserFields.shalom.dart';",
         ),
         isTrue,
-        reason:
-            'GetUser should import UserFields fragment with correct relative path',
+        reason: 'GetUser should import UserFields fragment with correct relative path',
       );
 
       // Verify that the generated GetPost file imports fragments with correct paths
@@ -43,16 +44,14 @@ void main() {
           "import '../../common_fragments/__graphql__/PostFields.shalom.dart';",
         ),
         isTrue,
-        reason:
-            'GetPost should import PostFields fragment with correct relative path',
+        reason: 'GetPost should import PostFields fragment with correct relative path',
       );
       expect(
         postContent.contains(
           "import '../../common_fragments/__graphql__/UserFields.shalom.dart';",
         ),
         isTrue,
-        reason:
-            'GetPost should import UserFields fragment (used in nested author) with correct relative path',
+        reason: 'GetPost should import UserFields fragment (used in nested author) with correct relative path',
       );
     });
 
@@ -120,32 +119,25 @@ void main() {
       },
     );
 
-    test(
-      'crossDirNestedFragments - GetPost uses fragments from different directory',
-      () {
-        final postData = {
-          "post": {
-            "id": "post1",
-            "title": "Test Post",
-            "content": "Test Content",
-            "author": {
-              "id": "user1",
-              "name": "Bob",
-              "email": "bob@example.com",
-            },
-          },
-        };
+    test('crossDirNestedFragments - GetPost uses fragments from different directory', () {
+      final postData = {
+        "post": {
+          "id": "post1",
+          "title": "Test Post",
+          "content": "Test Content",
+          "author": {"id": "user1", "name": "Bob", "email": "bob@example.com"},
+        },
+      };
 
-        final variables = GetPostVariables(postId: "post1");
-        final response = GetPostData.fromJson(postData);
+      final variables = GetPostVariables(postId: "post1");
+      final response = GetPostData.fromJson(postData);
 
-        expect(response.post, isNotNull);
-        expect(response.post!.id, equals("post1"));
-        expect(response.post!.title, equals("Test Post"));
-        expect(response.post!.author.id, equals("user1"));
-        expect(response.post!.author.name, equals("Bob"));
-      },
-    );
+      expect(response.post, isNotNull);
+      expect(response.post!.id, equals("post1"));
+      expect(response.post!.title, equals("Test Post"));
+      expect(response.post!.author.id, equals("user1"));
+      expect(response.post!.author.name, equals("Bob"));
+    });
 
     test(
       'nestedFragmentRequired - AuthorFields fragment with nested UserFields',
@@ -184,32 +176,29 @@ void main() {
       expect(response.user, isNull);
     });
 
-    test(
-      'nestedFragmentCacheNormalization - Cache normalization with nested fragments',
-      () {
-        final authorData1 = {
-          "user": {
-            "id": "author1",
-            "name": "Jane Doe",
-            "email": "jane@example.com",
-            "posts": [
-              {"id": "post1", "title": "First Post"},
-            ],
-          },
-        };
+    test('nestedFragmentCacheNormalization - Cache normalization with nested fragments', () {
+      final authorData1 = {
+        "user": {
+          "id": "author1",
+          "name": "Jane Doe",
+          "email": "jane@example.com",
+          "posts": [
+            {"id": "post1", "title": "First Post"},
+          ],
+        },
+      };
 
-        final variables = GetAuthorVariables(authorId: "author1");
-        final response = GetAuthorData.fromJson(authorData1);
+      final variables = GetAuthorVariables(authorId: "author1");
+      final response = GetAuthorData.fromJson(authorData1);
 
-        // Verify that response preserves the data structure from nested fragments
-        expect(response.user, isNotNull);
-        expect(response.user!.id, equals('author1'));
-        expect(response.user!.name, equals('Jane Doe'));
-        expect(response.user!.email, equals('jane@example.com'));
-        expect(response.user!.posts.length, equals(1));
-        expect(response.user!.posts[0].id, equals('post1'));
-      },
-    );
+      // Verify that response preserves the data structure from nested fragments
+      expect(response.user, isNotNull);
+      expect(response.user!.id, equals('author1'));
+      expect(response.user!.name, equals('Jane Doe'));
+      expect(response.user!.email, equals('jane@example.com'));
+      expect(response.user!.posts.length, equals(1));
+      expect(response.user!.posts[0].id, equals('post1'));
+    });
 
     test('nestedFragmentEquals - Equality works with nested fragments', () {
       final authorData1 = {

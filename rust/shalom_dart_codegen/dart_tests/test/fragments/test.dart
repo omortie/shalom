@@ -1,4 +1,5 @@
 import 'package:test/test.dart';
+
 import '__graphql__/UserInfoFrag.shalom.dart';
 import '__graphql__/GetUser.shalom.dart';
 import '__graphql__/GetPost.shalom.dart';
@@ -80,78 +81,67 @@ void main() {
       expect(json, userData);
     });
 
-    test(
-      'fragmentInNestedObject - Documents intended behavior for nested fragments',
-      () {
-        // Test fragment usage in nested object
-        final postData = {
-          "post": {
-            "id": "post1",
-            "title": "Test Post",
-            "published": true,
-            "author": {
-              "id": "user1",
-              "name": "Alice",
-              "email": "alice@example.com",
-            },
-          },
-        };
-
-        final result = GetPostWithAuthorData.fromJson(postData);
-
-        expect(result.post?.id, "post1");
-        expect(result.post?.title, "Test Post");
-        expect(result.post?.author.id, "user1");
-        expect(result.post?.author.name, "Alice");
-        expect(result.post?.author.email, "alice@example.com");
-      },
-    );
-
-    test(
-      'fragmentTypeChecking - Same fragment from different operations returns true for is check',
-      () {
-        final userData = {
-          "user": {
+    test('fragmentInNestedObject - Documents intended behavior for nested fragments', () {
+      // Test fragment usage in nested object
+      final postData = {
+        "post": {
+          "id": "post1",
+          "title": "Test Post",
+          "published": true,
+          "author": {
             "id": "user1",
             "name": "Alice",
             "email": "alice@example.com",
-            "age": 25,
           },
-        };
+        },
+      };
 
-        final getUserResult = GetUserData.fromJson(userData);
+      final result = GetPostWithAuthorData.fromJson(postData);
 
-        final getUserWithAuthorResult = GetUserWithAuthorData.fromJson(
-          userData,
-        );
+      expect(result.post?.id, "post1");
+      expect(result.post?.title, "Test Post");
+      expect(result.post?.author.id, "user1");
+      expect(result.post?.author.name, "Alice");
+      expect(result.post?.author.email, "alice@example.com");
+    });
 
-        // Both should implement UserInfoFrag
-        expect(getUserResult.user is UserInfoFrag, true);
-        expect(getUserWithAuthorResult.user is UserInfoFrag, true);
-      },
-    );
+    test('fragmentTypeChecking - Same fragment from different operations returns true for is check', () {
+      final userData = {
+        "user": {
+          "id": "user1",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "age": 25,
+        },
+      };
 
-    test(
-      'fragmentExternalImport - Operations should import fragments from other folders',
-      () {
-        // This test verifies that fragments can be imported across operations
-        final userData = {
-          "user": {
-            "id": "user1",
-            "name": "Alice",
-            "email": "alice@example.com",
-            "age": 25,
-          },
-        };
+      final getUserResult = GetUserData.fromJson(userData);
 
-        final result = GetUserWithAuthorData.fromJson(userData);
+      final getUserWithAuthorResult = GetUserWithAuthorData.fromJson(userData);
 
-        // Should have fields from both fragments
-        expect(result.user?.id, "user1"); // from UserInfoFrag
-        expect(result.user?.name, "Alice"); // from UserInfoFrag
-        expect(result.user?.age, 25); // from AuthorInfoFrag
-      },
-    );
+      // Both should implement UserInfoFrag
+      expect(getUserResult.user is UserInfoFrag, true);
+      expect(getUserWithAuthorResult.user is UserInfoFrag, true);
+    });
+
+    test('fragmentExternalImport - Operations should import fragments from other folders', () {
+      // This test verifies that fragments can be imported across operations
+      final userData = {
+        "user": {
+          "id": "user1",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "age": 25,
+        },
+      };
+
+      final result = GetUserWithAuthorData.fromJson(userData);
+
+      // Should have fields from both fragments
+      expect(result.user?.id, "user1"); // from UserInfoFrag
+      expect(result.user?.name, "Alice"); // from UserInfoFrag
+      expect(result.user?.age, 25); // from AuthorInfoFrag
+    });
 
     test('fragmentNestedInObjects - Fragment usage inside nested objects', () {
       final postData = {

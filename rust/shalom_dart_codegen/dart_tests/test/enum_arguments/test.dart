@@ -1,5 +1,6 @@
 import 'package:test/test.dart';
 import 'package:shalom/shalom.dart';
+
 import "__graphql__/EnumRequired.shalom.dart";
 import "__graphql__/EnumOptional.shalom.dart";
 import "__graphql__/EnumInputObjectOptional.shalom.dart";
@@ -26,9 +27,9 @@ void main() {
     );
     expect(variablesUpdated.status.some(), Status.COMPLETED);
     expect(
-      RequestEnumOptional(
-        variables: EnumOptionalVariables(status: Some(null)),
-      ).toRequest().variables,
+      RequestEnumOptional(variables: EnumOptionalVariables(status: Some(null)))
+          .toRequest()
+          .variables,
       {"status": null},
     );
 
@@ -39,9 +40,9 @@ void main() {
       {"status": "SENT"},
     );
     expect(
-      RequestEnumOptional(
-        variables: EnumOptionalVariables(status: None()),
-      ).toRequest().variables,
+      RequestEnumOptional(variables: EnumOptionalVariables(status: None()))
+          .toRequest()
+          .variables,
       {},
     );
   });
@@ -76,9 +77,8 @@ void main() {
       ),
     );
     expect(variablesUpdated.order.status, Some<Status?>(Status.COMPLETED));
-    final req = RequestEnumInputObjectOptional(
-      variables: variables,
-    ).toRequest();
+    final req = RequestEnumInputObjectOptional(variables: variables)
+        .toRequest();
     expect(req.variables, {
       "order": {"status": null, "timeLeft": 2},
     });

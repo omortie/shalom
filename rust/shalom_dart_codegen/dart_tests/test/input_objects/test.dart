@@ -1,5 +1,6 @@
 import 'package:test/test.dart';
 import 'package:shalom/shalom.dart';
+
 import "__graphql__/OptOrderRequest.shalom.dart";
 import "__graphql__/OrderOptRequest.shalom.dart";
 import "__graphql__/OrderOptWithNullDefaultsRequest.shalom.dart";
@@ -106,9 +107,8 @@ void main() {
   });
   group("optional input objects", () {
     test("None", () {
-      final req = RequestOptOrderRequest(
-        variables: OptOrderRequestVariables(),
-      ).toRequest();
+      final req = RequestOptOrderRequest(variables: OptOrderRequestVariables())
+          .toRequest();
       expect(req.variables, {});
     });
     test("Some", () {

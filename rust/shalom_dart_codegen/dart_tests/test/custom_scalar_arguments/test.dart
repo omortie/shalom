@@ -1,6 +1,7 @@
 import 'package:dart_tests/point.dart' show Point;
 import 'package:test/test.dart';
 import 'package:shalom/shalom.dart';
+
 import '__graphql__/UpdatePointCoordsNonNull.shalom.dart';
 import '__graphql__/UpdatePointCoordsOpt.shalom.dart';
 import '__graphql__/UpdatePointCoordsMaybe.shalom.dart';
@@ -114,9 +115,8 @@ void main() {
         ),
       );
       expect(variablesUpdated.pointData.coords, Some<Point?>(updatedPoint));
-      final req = RequestUpdatePointWithInputCoordsMaybe(
-        variables: variables,
-      ).toRequest();
+      final req = RequestUpdatePointWithInputCoordsMaybe(variables: variables)
+          .toRequest();
       expect(req.variables, {
         "pointData": {"coords": null, "name": "Location D"},
       });
@@ -127,9 +127,8 @@ void main() {
         pointData: PointDataOptCoordsInput(name: "Location M"),
       );
 
-      final req = RequestUpdatePointWithOptCoords(
-        variables: variables,
-      ).toRequest();
+      final req = RequestUpdatePointWithOptCoords(variables: variables)
+          .toRequest();
       expect(req.variables, {
         "pointData": {"coords": "POINT (0, 0)", "name": "Location M"},
       });

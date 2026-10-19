@@ -277,8 +277,7 @@ void main() {
 
     final events = rs_ws.wsOnMessage(
       sansio: sansio,
-      raw:
-          '{"id":"operation-1","type":"next","payload":{"data":{"version":"v1"}}}',
+      raw: '{"id":"operation-1","type":"next","payload":{"data":{"version":"v1"}}}',
     );
 
     final event = events.single as rs_ws.WsLinkEvent_OperationResponse;
@@ -539,78 +538,81 @@ void main() {
   // -------------------------------------------------------------------------
   // 7. rebindFragmentSubscription swaps anchor, new stream emits new data.
   // -------------------------------------------------------------------------
-  test('rebindFragmentSubscription delivers data from the new anchor', () async {
-    const fragDef = 'fragment PetFrag on Pet @observe { id name }';
-    const op1 =
-        '''
+  test(
+    'rebindFragmentSubscription delivers data from the new anchor',
+    () async {
+      const fragDef = 'fragment PetFrag on Pet @observe { id name }';
+      const op1 =
+          '''
       $fragDef
       query GetPet14 @observe { user(id: "1") { id pet { ...PetFrag } } }
     ''';
-    const op2 =
-        '''
+      const op2 =
+          '''
       $fragDef
       query GetPet15 @observe { user(id: "2") { id pet { ...PetFrag } } }
     ''';
 
-    final client = _makeClient([
-      // Populate Pet:14.
-      GraphQLData(
-        data: {
-          'user': {
-            'id': '1',
-            'pet': {'id': '14', 'name': 'Rex'},
+      final client = _makeClient([
+        // Populate Pet:14.
+        GraphQLData(
+          data: {
+            'user': {
+              'id': '1',
+              'pet': {'id': '14', 'name': 'Rex'},
+            },
           },
-        },
-      ),
-      // Populate Pet:15.
-      GraphQLData(
-        data: {
-          'user': {
-            'id': '2',
-            'pet': {'id': '15', 'name': 'Fido'},
+        ),
+        // Populate Pet:15.
+        GraphQLData(
+          data: {
+            'user': {
+              'id': '2',
+              'pet': {'id': '15', 'name': 'Fido'},
+            },
           },
-        },
-      ),
-    ]);
+        ),
+      ]);
 
-    client.registerFragment(document: fragDef);
-    client.registerOperation(document: op1);
-    client.registerOperation(document: op2);
+      client.registerFragment(document: fragDef);
+      client.registerOperation(document: op1);
+      client.registerOperation(document: op2);
 
-    // Populate cache for both pets.
-    await client
-        .request<_TestData>(name: 'GetPet14', decoder: _tdJson)
-        .first
-        .timeout(const Duration(seconds: 5));
-    await client
-        .request<_TestData>(name: 'GetPet15', decoder: _tdJson)
-        .first
-        .timeout(const Duration(seconds: 5));
+      // Populate cache for both pets.
+      await client
+          .request<_TestData>(name: 'GetPet14', decoder: _tdJson)
+          .first
+          .timeout(const Duration(seconds: 5));
+      await client
+          .request<_TestData>(name: 'GetPet15', decoder: _tdJson)
+          .first
+          .timeout(const Duration(seconds: 5));
 
-    // Subscribe to Pet:14 via the fragment.
-    final sub14 = client.subscribeToFragment<_TestData>(
-      ref: ObservedRefInput(observableId: 'PetFrag', anchor: 'Pet:14'),
-      decoder: _tdJson,
-    );
-    // Drain first emission (immediate cache hit).
-    await sub14.first.timeout(const Duration(seconds: 5));
+      // Subscribe to Pet:14 via the fragment.
+      final sub14 = client.subscribeToFragment<_TestData>(
+        ref: ObservedRefInput(observableId: 'PetFrag', anchor: 'Pet:14'),
+        decoder: _tdJson,
+      );
+      // Drain first emission (immediate cache hit).
+      await sub14.first.timeout(const Duration(seconds: 5));
 
-    // Use rebindFragmentSubscription to jump to Pet:15.
-    // Note: we don't have direct access to the internal subId through the public
-    // Stream API, so we demonstrate the rebind result by subscribing to the
-    // returned stream and verifying it delivers Pet:15 data immediately.
-    //
-    // For a white-box rebind test (with a known subId), use the Rust layer
-    // tests in rust/shalom_runtime/tests/.
-    final sub15 = client.subscribeToFragment<_TestData>(
-      ref: ObservedRefInput(observableId: 'PetFrag', anchor: 'Pet:15'),
-      decoder: _tdJson,
-    );
-    final pet15 = _expectData(
-      await sub15.first.timeout(const Duration(seconds: 5)),
-    );
-    expect(pet15['name'], 'Fido');
+      // Use rebindFragmentSubscription to jump to Pet:15.
+      // Note: we don't have direct access to the internal subId through the public
+      // Stream API, so we demonstrate the rebind result by subscribing to the
+      // returned stream and verifying it delivers Pet:15 data immediately.
+      //
+      // For a white-box rebind test (with a known subId), use the Rust layer
+      // tests in rust/shalom_runtime/tests/.
+      final sub15 = client.subscribeToFragment<_TestData>(
+        ref: ObservedRefInput(observableId: 'PetFrag', anchor: 'Pet:15'),
+        decoder: _tdJson,
+      );
+      final pet15 = _expectData(
+        await sub15.first.timeout(const Duration(seconds: 5)),
+      );
+      expect(pet15['name'], 'Fido');
 
-    await client.dispose();
-  });
+      await client.dispose();
+    },
+  );
 }
