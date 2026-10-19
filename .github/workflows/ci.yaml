@@ -97,12 +97,15 @@ jobs:
               with:
                   channel: stable
 
+            - name: Build shalom_ffi
+              run: cargo build -p shalom_ffi
+
             - name: Install GIF search dependencies
               run: |
                   cd examples/flutter/gif_search
                   flutter pub get
 
-            - name: Build GIF search example
+            - name: Test GIF search example
               run: |
                   cd examples/flutter/gif_search
                   flutter test
